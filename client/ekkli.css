@@ -1,0 +1,142 @@
+.container-fluid {
+	width: 96%;
+}
+svg {
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAdCAMAAACKeiw+AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRF////9fb3h/JDwQAAABtJREFUeNpiYMQLGBgZ8IJR6VHpUWnKpAECDACcGgA72QxfPgAAAABJRU5ErkJggg==);
+    border: solid 1px #ddd;
+}
+svg .circle {
+    /*fill: white;*/
+/*    stroke: black;*/
+    stroke-width: 2;
+    color: white;
+}
+svg circle:hover{
+    cursor: pointer;
+}
+svg circle:active{
+    /*stroke: yellow;*/
+}
+svg .link_line {
+    stroke: rgba(255,255,255,.5);
+    stroke-width: 1.5;
+}​
+svg .line {
+     stroke: #ccc;
+     stroke-width: 1.5px;
+}
+
+svg circle.callout {
+    stroke-width: 3px;
+    stroke-dasharray: 9, 5;
+    stroke-opacity: .8;
+    fill: none;
+    stroke: red;
+}
+
+.story-content {
+    stroke-width: 0.5px;
+    stroke-opacity: .4;
+    stroke: navy;
+}
+.story-content:hover{
+    cursor: pointer;
+}
+
+.open-content-side-bar {
+	cursor: pointer;	
+}
+
+#maps_table {
+	margin-top: 4%;
+	margin-left: 27%;
+	width: 60%;
+}
+#menu{
+
+}
+#content-sidebar {
+	
+	margin-top: 20px;
+	margin-left: 70%;
+	width: 260px;
+	position: absolute;
+}
+
+.add-context {
+	font-size: 80%;
+	color: black;
+}
+
+#edit-content-input {
+    height: 80px;
+}
+
+#opinions-wrapper {
+	height: 220px;
+	overflow: auto;	
+}
+
+.count {
+	font-size: 8pt;	
+	padding-right: 2px;
+}
+
+.opinion {
+	width: 150px;	
+}
+
+.POSITIVE-opinion {
+	background-color: #66FF99;
+}
+
+
+.NEGATIVE-opinion {
+	background-color: #FF5050;
+}
+
+
+.WARNING-opinion {
+	background-color: #FFCC00;
+}
+
+.opinion_num {
+	background-color: lightgrey;
+	border: 1px;
+	border-radius: 5px;
+	width: 35px;
+}
+
+.POSITIVE_opinion_num {
+	background-color: #66FF99;
+	border: 1px;
+	border-radius: 5px;
+	width: 35px;
+}
+
+.NEGATIVE_opinion_num {
+	background-color: #FF5050;
+	border: 1px;
+	border-radius: 5px;
+	width: 35px;
+}
+
+
+.WARNING_opinion_num {
+	background-color: #FFCC00;
+	border: 1px;
+	border-radius: 5px;
+	width: 35px;
+}
+
+#edit-status-input {
+	width: 150px;
+}
+
+.tip-text {
+/*	font-family: 'Bad Script', cursive;*/
+	font-family: cursive;
+	font-size: 150%;
+	color: red;
+}
+

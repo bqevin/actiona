@@ -1,0 +1,159 @@
+
+    <template name="map">
+        <table>
+        <tr>
+            {{#each participants}}
+
+            {{>participant_display}}
+
+            {{/each}}
+        </tr>
+        </table>
+
+	<div id="content-sidebar" class="well">
+	{{#if content_side_bar_shown}}
+		<div class="close close-side-bar pull-right">&times;</div>
+		<div class="editable modal-body">
+			<span id="content-header" class="content-sidebar-header"><i class="icon-pencil"></i>Edit content</span>
+			<br/>
+			{{#if author_avatar}}
+			<img src="{{author_avatar}}" id="avatar" alt="{{author_name_label}}" title="{{author_name_label}}" style="width:16px">
+			{{/if}}
+			{{#unless author_avatar}}
+			Created by: <strong>{{author_name_label}}</strong>
+			{{/unless}}
+			<input type="text" id="edit-title-input" value="{{selectedStory.title}}"/>
+			{{#if editing_title}}<br/><button class="btn btn-primary" id="save-story-title">Save</button>{{/if}}
+          {{#if just_display_content}}
+            {{#each content_bullets}}
+              <span class="content-display">{{bullet}}</span>
+              <br/><br/>
+            {{/each}}
+          {{/if}}
+          {{#unless just_display_content}}
+            <textarea id="edit-content-input" class="editable" placeholder="Add some description">{{selectedStory.content}}</textarea>
+          {{/unless}}
+			{{#if editing_content}}<br/><button class="btn btn-primary" id="save-story-content">Save</button>{{/if}}
+
+      <label for="edit-status-input"></label>
+			{{#unless editing_status}}
+			<span id="current-status" style="background-color:{{current_status.color}}">{{current_status.name}}</span>
+			{{/unless}}
+			{{#if editing_status}}
+			<select id="edit-status-input">
+				<option value="undefined">--Select status--</option>
+				{{#each life_cycle_statuses}}<a href="map-settings.html" id="" title="map-settings">map-settings</a>
+					<option value="{{key}}">{{name}}</option>
+				{{/each}}
+			</select>
+			<a href="#" id="cancel-edit-status">Cancel</a>
+			{{/if}}
+			{{#unless editing_status}}
+			{{#if has_next_action}}
+
+			<button class="btn btn-small" id="next-status-action"><i class="icon-forward"></i> {{next_action}}</button>
+			{{/if}}
+			{{/unless}}
+			<br/>
+			<br/>
+			{{#if opinions_loading}}
+			<!--div class="progress progress-striped active"><div class="bar" style="width: 100%;">Loading...</div></div><br/-->
+			<div class="text-info">Loading...</div><br/>
+			{{else}}
+			<div id="opinions-wrapper">
+
+				  <div class="btn-group">
+				      <a href="#" class="btn btn-small add-classified-opinion" speech-act="POSITIVE" title="Add positive opinion"><i class="icon-thumbs-up"></i></a>
+				      <a href="#" class="btn btn-small add-classified-opinion" speech-act="NEGATIVE" title="Add negative opinion"><i class="icon-thumbs-down"></i></a>
+				      <a href="#" class="btn btn-small add-classified-opinion" speech-act="WARNING" title="Add warning"><i class="icon-warning-sign"></i></a>
+				   </div>
+				   <!--div class="btn-group">
+
+				      <a href="#" class="btn btn-small add-classified-opinion" speech-act="QUESTION" title="Add question"><i class="icon-question-sign"></i></a>
+					  <a href="#" class="btn btn-small add-classified-opinion" speech-act="ANSWER" title="Add answer"><i class="icon-ok-circle"></i></a>
+					  <a href="#" class="btn btn-small add-classified-opinion" speech-act="FLAG" title="Raise a flag"><i class="icon-flag"></i></a>
+
+
+				  </div-->
+				<table class="opinions-table">
+					<tr>
+                        <td valign="top"><strong>{{getCurrentUserName}}</strong></td>
+						<td valign="top">
+							<input type="text" id="edit-opinion-input" class="opinion"  placeholder="Your opinion"/>
+							{{#if adding_opinion}}<br/><button class="btn btn-primary" id="save-new-opinion" title="Press Enter to save">Save</button>{{/if}}
+						</td>
+						</tr>
+
+						{{#each opinions}}
+						<tr>
+							{{>opinion_display}}
+						</tr>
+						{{/each}}
+				</table>
+			</div>
+			{{/if}}
+        </div>
+        <div class="modal-footer">
+				<div class="pull-left">
+					{{#if number_of_positive_opinions}}<span class="badge badge-success">{{number_of_positive_opinions}}<i class="icon-white icon-thumbs-up"></i></span>{{/if}}
+					{{#if number_of_negative_opinions}}<span class="badge badge-important">{{number_of_negative_opinions}}<i class="icon-white icon-thumbs-down"></i></span>{{/if}}
+					{{#if number_of_warning_opinions}}<span class="badge badge-warning">{{number_of_warning_opinions}}<i class="icon-white icon-warning-sign"></i></span>{{/if}}
+				</div>
+				<a href="#" class="delete-story pull-right">Delete</a>
+            <!--button class="btn close-side-bar" data-dismiss="modal" aria-hidden="true">Close</button-->
+            <!--button class="btn btn-primary" id="save-content">Save</button-->
+        </div>
+	{{else}}
+		<span class="open-content-side-bar"><i class="icon-pencil"></i>Edit content</span>
+	{{/if}}
+	</div>
+	{{#if stories_loading}}
+	<!--div class="progress progress-striped active"><div class="bar" style="width: 100%;">Loading...</div></div><br/-->
+	<div class="text-info">Loading...</div><br/>
+	{{/if}}
+
+    {{#with map}}
+	{{#unless stories_loading}}<h4 class="description">{{description}}</h4>{{/unless}}
+    {{#constant}}
+    <svg id="vis" class="container-fluid" xmlns="http://www.w3.org/2000/svg" version="1.1" width="880" height="600">
+		<g id="map_viewport">
+        	<g class="paths"></g>
+        	<g class="labels"></g>
+        	<g class="jquery-svgpan.jscontents"></g>
+        	<g class="stories"></g>
+			<!-- <g class="content-indicators"></g> -->
+			<g class="voting-indicators"></g>
+        	<circle class="callout" cx="-100" cy="-100"></circle>
+        	<foreignObject id="storyEditor" x="-100" y="-100">
+            	<input type="text" class="title-editor" />
+        	</foreignObject>
+		</g>
+    </svg>
+	<br/>
+	<p class="help-block">
+		<strong>Tip:</strong> Use the mouse scroll to zoom, and drag the map to move around
+	</p>
+    {{/constant}}
+    {{/with}}
+</template>
+
+
+<template name="opinion_display">
+	{{#if editing_opinion}}
+	<td><strong>{{author_name}}</strong></td>
+	<td class="opinion" >
+	<input type="text" id="edit-existing-opinion-input" value="{{text}}" class="opinion" title="Press Enter to save"/>
+	<br/><button class="btn btn-primary" id="save-existing-opinion" title="Press Enter to save">Save</button>
+	</td>
+	{{else}}
+	<td valign="top"><strong>{{author_name_label}}</strong></td>
+	<td valign="top" class="opinion" > <span class="opinion-text {{ speech_act }}-opinion">{{text}}</span>
+	{{/if}}
+	{{#if show_opinion_actions}}<span class="opinion-actions pull-right"><a href="#" class="edit-opinion">Edit</a> - <a href="#" class="delete-opinion">Delete</a></span><br/>{{/if}}
+	</td>
+</template>
+
+<template name="participant_display">
+    <td style="border-bottom: {{userOnline this}} solid;"><img src="{{participant_avatar this}}" id="avatar" alt="{{profile.name}}" style="width:32px"></td><td>&nbsp</td>
+
+</template>
